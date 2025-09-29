@@ -18,6 +18,10 @@ export default function Home() {
             Get started by editing <code>src/app/page.tsx</code>.
           </li>
           <li>Hello world!</li>
+          <li> Teste de prettier</li> <li>mais um teste </li>{" "}
+          <li> Teste de prettier</li> <li>maais um teste </li>{" "}
+          <li> Teste de prettier</li> <li>maais um teste </li>{" "}
+          <li> Teste de prettier</li> <li>maais um teste </li>
         </ol>
 
         <div className={styles.ctas}>
