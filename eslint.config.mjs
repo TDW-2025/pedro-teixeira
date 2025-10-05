@@ -7,7 +7,7 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
   // Configuração geral
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     languageOptions: {
       globals: globals.browser,
     },
@@ -15,21 +15,20 @@ export default defineConfig([
       js,
       react: pluginReact,
     },
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      // Não usar pluginReact.configs.flat.recommended
-    ],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    rules: {},
+  },
+
+  // JSX/TSX override
+  {
+    files: ["src/app/**/*.{jsx,tsx}"],
     rules: {
-      // React 17+ / Next.js: desativa regras antigas
       "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "off",
-      "react/prop-types": "off", // opcional se usares TS
+      "react/prop-types": "off",
     },
     settings: {
-      react: {
-        version: "detect",
-      },
+      react: { version: "detect" },
     },
   },
 
