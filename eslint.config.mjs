@@ -1,35 +1,42 @@
 // eslint.config.mjs
+// eslint.config.mjs
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import reactPlugin from "eslint-plugin-react";
 import globals from "globals";
 
-export default tseslint.config(
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
+export default [
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
+
     languageOptions: {
-      parser: tseslint.parser, // 👈 importante para .ts/.tsx
+      parser: tseslint.parser, // 👈 aplica TS parser
       parserOptions: {
-        projectService: true, // 👈 substitui "project: true" (forma moderna no ESLint 9)
+        ecmaVersion: 2023,
+        sourceType: "module",
+        project: "./tsconfig.json", // 👈 caminho correto para tsconfig
+        tsconfigRootDir: process.cwd(), // 👈 garante que o CI encontra o tsconfig
+        ecmaFeatures: { jsx: true },
       },
       globals: {
         ...globals.browser,
         ...globals.node,
       },
     },
+
     plugins: {
       react: reactPlugin,
     },
+
     settings: {
       react: {
-        version: "detect", // autodetecta versão 19
+        version: "detect",
       },
     },
+
     rules: {
-      "react/react-in-jsx-scope": "off", // React 17+ não precisa de import React
+      "react/react-in-jsx-scope": "off",
       "no-unused-vars": "warn",
     },
   },
-);
+];
