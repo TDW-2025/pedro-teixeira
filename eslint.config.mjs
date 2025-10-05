@@ -18,10 +18,13 @@ export default defineConfig([
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
-      pluginReact.configs.flat.recommended,
+      // Não usar pluginReact.configs.flat.recommended
     ],
     rules: {
-      // Esta regra será sobreposta depois
+      // React 17+ / Next.js: desativa regras antigas
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-uses-react": "off",
+      "react/prop-types": "off", // opcional se usares TS
     },
     settings: {
       react: {
@@ -54,15 +57,6 @@ export default defineConfig([
     },
     rules: {
       "no-undef": "off",
-    },
-  },
-
-  // ✅ JSX/TSX override final para React 17+
-  {
-    files: ["**/*.{jsx,tsx}"],
-    rules: {
-      "react/react-in-jsx-scope": "off",
-      "react/jsx-uses-react": "off",
     },
   },
 ]);
