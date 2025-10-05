@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ['*']       # Todas as branches
+    branches: ['*']     
   pull_request:
     branches: ['*']
 
