@@ -1,4 +1,5 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+[![lint-and-jester](https://github.com/TDW-2025/pedro-teixeira/actions/workflows/lint_jester.yml/badge.svg)](https://github.com/TDW-2025/pedro-teixeira/actions/workflows/lint_jester.yml)
 
 ## Getting Started
 
