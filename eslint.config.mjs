@@ -4,58 +4,32 @@ import tseslint from "typescript-eslint";
 import reactPlugin from "eslint-plugin-react";
 import globals from "globals";
 
-/** @type {import("eslint").Linter.FlatConfig[]} */
-export default [
+export default tseslint.config(
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
-      ecmaVersion: 2023,
-      sourceType: "module",
+      parser: tseslint.parser, // 👈 importante para .ts/.tsx
+      parserOptions: {
+        projectService: true, // 👈 substitui "project: true" (forma moderna no ESLint 9)
+      },
       globals: {
         ...globals.browser,
         ...globals.node,
       },
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-      },
     },
     plugins: {
-      js,
-      "@typescript-eslint": tseslint.plugin,
       react: reactPlugin,
-    },
-    rules: {
-      // Regras JS + TS base
-      ...js.configs.recommended.rules,
-      ...tseslint.configs.recommended[0].rules,
-
-      // Regras React
-      ...reactPlugin.configs.recommended.rules,
-
-      // Corrige o teu problema — não precisa de React em escopo
-      "react/react-in-jsx-scope": "off",
-      "react/jsx-uses-react": "off",
-
-      // Outras sugestões
-      "react/prop-types": "off",
-      "no-unused-vars": "warn",
-      "no-console": "warn",
     },
     settings: {
       react: {
-        version: "detect",
+        version: "detect", // autodetecta versão 19
       },
     },
-  },
-
-  // Configurações para testes
-  {
-    files: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**/*"],
-    languageOptions: {
-      globals: {
-        ...globals.jest,
-        global: "readonly",
-      },
+    rules: {
+      "react/react-in-jsx-scope": "off", // React 17+ não precisa de import React
+      "no-unused-vars": "warn",
     },
   },
-];
+);
