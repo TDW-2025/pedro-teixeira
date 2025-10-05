@@ -5,7 +5,7 @@ import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
-  // Configuração geral
+  // Configuração geral para JS/TS
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     languageOptions: {
@@ -16,23 +16,41 @@ export default defineConfig([
       react: pluginReact,
     },
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    rules: {},
+    rules: {
+      "react/prop-types": "off",
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
   },
 
-  // JSX/TSX override
+  // Configuração específica para JSX/TSX (React 18 / Next 15)
   {
-    files: ["src/app/**/*.{jsx,tsx}"],
+    files: ["**/*.{jsx,tsx}"],
+    languageOptions: {
+      globals: globals.browser,
+    },
+    plugins: {
+      react: pluginReact,
+    },
+    extends: [
+      pluginReact.configs.flat.recommended, // mantém regras de React
+    ],
     rules: {
-      "react/react-in-jsx-scope": "off",
+      "react/react-in-jsx-scope": "off", // desativa erro de React em scope
       "react/jsx-uses-react": "off",
       "react/prop-types": "off",
     },
     settings: {
-      react: { version: "detect" },
+      react: {
+        version: "detect",
+      },
     },
   },
 
-  // Node configs
+  // Node configs (configs JS)
   {
     files: ["**/*.config.js", "**/*.config.cjs", "babel.config.js"],
     languageOptions: {
