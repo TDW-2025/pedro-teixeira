@@ -1,30 +1,45 @@
+// eslint.config.mjs
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
+import reactPlugin from "eslint-plugin-react";
 import globals from "globals";
-import { defineConfig } from "eslint/config";
 
-export default defineConfig([
-  // Configuração geral para JS/TS/JSX/TSX
+/** @type {import("eslint").Linter.FlatConfig[]} */
+export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    languageOptions: {
+      ecmaVersion: 2023,
+      sourceType: "module",
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
+    },
     plugins: {
       js,
-      react: pluginReact,
-    },
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      pluginReact.configs.recommended, // mantém regras básicas de React
-    ],
-    languageOptions: {
-      globals: globals.browser,
+      "@typescript-eslint": tseslint.plugin,
+      react: reactPlugin,
     },
     rules: {
-      // Desliga a regra de React em escopo (Next 15/React 18+)
+      // Regras JS + TS base
+      ...js.configs.recommended.rules,
+      ...tseslint.configs.recommended[0].rules,
+
+      // Regras React
+      ...reactPlugin.configs.recommended.rules,
+
+      // Corrige o teu problema — não precisa de React em escopo
       "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "off",
-      "react/prop-types": "off", // se usares TS, podes desligar
+
+      // Outras sugestões
+      "react/prop-types": "off",
+      "no-unused-vars": "warn",
+      "no-console": "warn",
     },
     settings: {
       react: {
@@ -33,28 +48,14 @@ export default defineConfig([
     },
   },
 
-  // Configurações para ficheiros de Node (configs, babel.config.js, etc.)
+  // Configurações para testes
   {
-    files: ["**/*.config.js", "**/*.config.cjs", "babel.config.js"],
-    languageOptions: {
-      globals: globals.node,
-    },
-    rules: {
-      "no-undef": "off",
-    },
-  },
-
-  // Configurações para testes (Jest)
-  {
-    files: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**/*", "jest.setup.js"],
+    files: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**/*"],
     languageOptions: {
       globals: {
         ...globals.jest,
         global: "readonly",
       },
     },
-    rules: {
-      "no-undef": "off",
-    },
   },
-]);
+];
