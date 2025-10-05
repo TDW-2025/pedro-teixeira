@@ -21,7 +21,7 @@ export default defineConfig([
       pluginReact.configs.flat.recommended,
     ],
     rules: {
-      "react/react-in-jsx-scope": "off",
+      // Esta regra será sobreposta depois
     },
     settings: {
       react: {
@@ -30,7 +30,7 @@ export default defineConfig([
     },
   },
 
-  // ✅ Permitir module.exports em ficheiros de config
+  // Node configs
   {
     files: ["**/*.config.js", "**/*.config.cjs", "babel.config.js"],
     languageOptions: {
@@ -43,22 +43,9 @@ export default defineConfig([
     },
   },
 
-  // ✅ Permitir Jest globals nos testes
+  // Jest tests
   {
-    files: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**/*"],
-    languageOptions: {
-      globals: {
-        ...globals.jest,
-      },
-    },
-    rules: {
-      "no-undef": "off",
-    },
-  },
-
-  // ✅ Permitir globals no jest.setup.js
-  {
-    files: ["jest.setup.js"],
+    files: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**/*", "jest.setup.js"],
     languageOptions: {
       globals: {
         global: "readonly",
@@ -67,6 +54,15 @@ export default defineConfig([
     },
     rules: {
       "no-undef": "off",
+    },
+  },
+
+  // ✅ JSX/TSX override final para React 17+
+  {
+    files: ["**/*.{jsx,tsx}"],
+    rules: {
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-uses-react": "off",
     },
   },
 ]);
