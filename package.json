@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --no-eslintrc --config eslint.config.mjs . --ext .js,.ts,.jsx,.tsx",
+    "lint": "eslint --config eslint.config.mjs . --ext .js,.ts,.jsx,.tsx",
     "prettier": "prettier \"src/**/*.{js,ts,tsx,json,css,md}\" --write",
     "test": "jest"
   },
