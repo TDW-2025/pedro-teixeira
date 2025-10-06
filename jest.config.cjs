@@ -1,12 +1,25 @@
-// jest.config.cjs
 module.exports = {
   testEnvironment: "jsdom",
   transform: {
-    "^.+\\.[tj]sx?$": "ts-jest", // transforma TS/TSX corretamente
+    "^.+\\.[tj]sx?$": [
+      "@swc/jest",
+      {
+        jsc: {
+          parser: {
+            syntax: "typescript", // para TS/TSX
+            tsx: true, // permite JSX em TS
+            decorators: true,
+          },
+          transform: {
+            react: {
+              runtime: "automatic", // JSX moderno
+            },
+          },
+        },
+      },
+    ],
   },
   moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
-
-  // --- coverage ---
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!**/node_modules/**"],
   coverageDirectory: "coverage",
