@@ -1,1 +1,2 @@
-[build] publish = "out"
+[build] 
+    publish = "out"
